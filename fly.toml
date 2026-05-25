@@ -1,5 +1,7 @@
-# Kurumi Bot — Fly.io
-# App name phai trung voi: fly apps list
+# fly.toml app configuration file generated for bot-kurumi on 2026-05-25T18:16:44Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
 app = 'bot-kurumi'
 primary_region = 'sin'
@@ -8,17 +10,13 @@ primary_region = 'sin'
   dockerfile = 'Dockerfile'
 
 [env]
-  NODE_ENV = 'production'
-  NODE_OPTIONS = '--disable-warning=DEP0040'
   GITHUB_ANIME_URL = 'https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/anime.json'
   GITHUB_APPSTATE_URL = 'https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/appstate.json'
+  NODE_ENV = 'production'
+  NODE_OPTIONS = '--disable-warning=DEP0040'
 
 [processes]
-  app = "/bin/sh /app/docker-entrypoint.sh"
-
-[[vm]]
-  size = 'shared-cpu-1x'
-  memory = '512mb'
+  app = '/bin/sh /app/docker-entrypoint.sh'
 
 [http_service]
   internal_port = 8080
@@ -29,8 +27,12 @@ primary_region = 'sin'
   processes = ['app']
 
   [[http_service.checks]]
-    grace_period = '45s'
     interval = '30s'
+    timeout = '10s'
+    grace_period = '45s'
     method = 'GET'
     path = '/health'
-    timeout = '10s'
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '512mb'
