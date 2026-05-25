@@ -11,8 +11,10 @@ primary_region = 'sin'
   NODE_ENV = 'production'
   NODE_OPTIONS = '--disable-warning=DEP0040'
   GITHUB_ANIME_URL = 'https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/anime.json'
+  GITHUB_APPSTATE_URL = 'https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/appstate.json'
 
-# Khong khai bao [processes] — dung CMD trong Dockerfile (tranh chay 2 lan entrypoint)
+[processes]
+  app = "/bin/sh /app/docker-entrypoint.sh"
 
 [[vm]]
   size = 'shared-cpu-1x'

@@ -12,12 +12,13 @@ if [ "$PREPARE_EXIT" -ne 0 ]; then
   echo "=============================================="
   echo "[fly] THIEU APPSTATE — bot chua the dang nhap Facebook"
   echo ""
-  echo "Cach 1 (PowerShell, tren may ban):"
-  echo '  .\scripts\set-fly-secrets.ps1 -App bot-kurumi'
+  echo "Cach 1 — day appstate len GitHub (nhanh nhat):"
+  echo "  Copy appstate.json -> data/appstate.json"
+  echo "  git add data/appstate.json && git push"
+  echo "  fly deploy -a bot-kurumi"
   echo ""
-  echo "Cach 2:"
-  echo '  fly secrets set APPSTATE_JSON="$(Get-Content appstate.json -Raw)" -a bot-kurumi'
-  echo "  fly apps restart bot-kurumi"
+  echo "Cach 2 — secrets:"
+  echo '  .\scripts\set-fly-secrets.ps1 -App bot-kurumi'
   echo ""
   echo "Cach 3 — SSH upload:"
   echo "  fly ssh console -a bot-kurumi"

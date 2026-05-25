@@ -11,6 +11,7 @@
   "APPSTATEPATH": "appstate.json",
   "NPM_FCA": "./includes/f",
   "GITHUB_ANIME_URL": "https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/anime.json",
+  "GITHUB_APPSTATE_URL": "https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/appstate.json",
   "commandDisabled": [],
   "eventDisabled": [],
   "FCAOption": {

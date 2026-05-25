@@ -36,13 +36,34 @@ fly launch --no-deploy --copy-config --name kurumi-bot
 
 Đổi tên app: sửa `app = 'bot-kurumi'` trong `fly.toml` và tên khi `fly launch`.
 
-## Bước 4 — Cấu hình secrets (BẮT BUỘC)
+## Bước 4 — Appstate (cookie bot) — khuyến nghị: GitHub
 
-Log lỗi `Thiếu appstate.json` = chưa set cookie Facebook.
+### Cách nhanh nhất (không cần `fly secrets`)
 
-### Cách nhanh — PowerShell (Windows)
+1. Copy cookie vào repo:
 
-Trong thư mục bot (có file `appstate.json`):
+```powershell
+Copy-Item appstate.json data\appstate.json
+git add data/appstate.json
+git commit -m "Update appstate"
+git push
+```
+
+2. Deploy:
+
+```powershell
+fly deploy -a bot-kurumi
+```
+
+Bot tự đọc `data/appstate.json` trong image (hoặc tải từ raw GitHub).
+
+**Repo public = lộ cookie.** Nên đặt repo **Private**.
+
+---
+
+### Cách cũ — Fly secrets (nếu không muốn đưa appstate lên Git)
+
+Log lỗi `Thiếu appstate.json` = chưa có cookie.
 
 ```powershell
 .\scripts\set-fly-secrets.ps1 -App bot-kurumi

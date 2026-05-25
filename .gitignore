@@ -9,6 +9,7 @@ modules/commands/data/*.json
 data.sqlite
 appstate.json
 appstate_backup.json
+# data/appstate.json — cố ý commit cho Fly (repo nên Private)
 appstate.txt
 config.json
 config.json.temp
