@@ -34,27 +34,40 @@ fly launch --no-deploy --copy-config --name kurumi-bot
 - Không tạo Postgres/Redis nếu được hỏi.
 - File `fly.toml` đã có sẵn trong repo.
 
-Đổi tên app: sửa `app = 'kurumi-bot'` trong `fly.toml` và tên khi `fly launch`.
+Đổi tên app: sửa `app = 'bot-kurumi'` trong `fly.toml` và tên khi `fly launch`.
 
-## Bước 4 — Cấu hình secrets
+## Bước 4 — Cấu hình secrets (BẮT BUỘC)
+
+Log lỗi `Thiếu appstate.json` = chưa set cookie Facebook.
+
+### Cách nhanh — PowerShell (Windows)
+
+Trong thư mục bot (có file `appstate.json`):
+
+```powershell
+.\scripts\set-fly-secrets.ps1 -App bot-kurumi
+```
 
 ### Key admin bot
 
 ```bash
-fly secrets set BOT_ADMIN_KEY=2803
+fly secrets set BOT_ADMIN_KEY=2803 -a bot-kurumi
 ```
 
 ### Appstate (cookie đăng nhập) — quan trọng
 
-**Cách A — một dòng JSON (khuyến nghị nếu file < ~60KB):**
+**Cách A — PowerShell thủ công:**
+
+```powershell
+$j = Get-Content appstate.json -Raw | ConvertFrom-Json | ConvertTo-Json -Compress -Depth 50
+fly secrets set "APPSTATE_JSON=$j" -a bot-kurumi
+fly apps restart bot-kurumi
+```
+
+**Cách A2 — Git Bash:**
 
 ```bash
-# Linux/macOS/Git Bash
-fly secrets set APPSTATE_JSON="$(cat appstate.json | tr -d '\n')"
-
-# PowerShell (Windows)
-$j = Get-Content appstate.json -Raw | ConvertFrom-Json | ConvertTo-Json -Compress
-fly secrets set APPSTATE_JSON=$j
+fly secrets set APPSTATE_JSON="$(cat appstate.json | tr -d '\n')" -a bot-kurumi
 ```
 
 **Cách B — deploy trước, upload sau qua SSH:**
@@ -83,13 +96,13 @@ fly secrets set GROQ_API_KEY=gsk_xxxx
 ## Bước 5 — Deploy
 
 ```bash
-fly deploy
+fly deploy -a bot-kurumi
 ```
 
 Xem log:
 
 ```bash
-fly logs
+fly logs -a bot-kurumi
 ```
 
 Kiểm tra health:

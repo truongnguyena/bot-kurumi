@@ -1,8 +1,7 @@
-# Kurumi Bot — Fly.io (chạy nền 24/7)
-# Deploy: fly deploy
-# Docs: HUONG_DAN_FLY.md
+# Kurumi Bot — Fly.io
+# App name phai trung voi: fly apps list
 
-app = 'kurumi-bot'
+app = 'bot-kurumi'
 primary_region = 'sin'
 
 [build]
@@ -13,8 +12,7 @@ primary_region = 'sin'
   NODE_OPTIONS = '--disable-warning=DEP0040'
   GITHUB_ANIME_URL = 'https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/anime.json'
 
-[processes]
-  app = './docker-entrypoint.sh'
+# Khong khai bao [processes] — dung CMD trong Dockerfile (tranh chay 2 lan entrypoint)
 
 [[vm]]
   size = 'shared-cpu-1x'
@@ -29,8 +27,8 @@ primary_region = 'sin'
   processes = ['app']
 
   [[http_service.checks]]
-    grace_period = '30s'
+    grace_period = '45s'
     interval = '30s'
     method = 'GET'
     path = '/health'
-    timeout = '5s'
+    timeout = '10s'

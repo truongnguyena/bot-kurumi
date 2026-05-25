@@ -25,7 +25,17 @@ if (!fs.existsSync(configPath) && fs.existsSync(configExample)) {
   log('config.json từ config.example.json');
 }
 
-if (process.env.APPSTATE_JSON && !process.env.SKIP_APPSTATE_FILE) {
+if (process.env.APPSTATE_B64 && !process.env.SKIP_APPSTATE_FILE) {
+  try {
+    const json = Buffer.from(process.env.APPSTATE_B64, 'base64').toString('utf8');
+    const parsed = JSON.parse(json);
+    fs.writeFileSync(path.join(root, 'appstate.json'), JSON.stringify(parsed, null, 2), 'utf8');
+    log('appstate.json từ APPSTATE_B64');
+  } catch (e) {
+    console.error(`${tag} APPSTATE_B64 không hợp lệ:`, e.message);
+    process.exit(1);
+  }
+} else if (process.env.APPSTATE_JSON && !process.env.SKIP_APPSTATE_FILE) {
   try {
     const parsed = JSON.parse(process.env.APPSTATE_JSON);
     fs.writeFileSync(path.join(root, 'appstate.json'), JSON.stringify(parsed, null, 2), 'utf8');

@@ -1,6 +1,30 @@
 #!/bin/sh
-set -e
 cd /app
-node scripts/prepare-deploy.js
+
+# Health trước — Fly proxy /health vẫn OK khi chưa có appstate
 node scripts/fly-health.js &
+echo "[fly] health server PID $! — http://0.0.0.0:${PORT:-8080}/health"
+
+node scripts/prepare-deploy.js
+PREPARE_EXIT=$?
+
+if [ "$PREPARE_EXIT" -ne 0 ]; then
+  echo "=============================================="
+  echo "[fly] THIEU APPSTATE — bot chua the dang nhap Facebook"
+  echo ""
+  echo "Cach 1 (PowerShell, tren may ban):"
+  echo '  .\scripts\set-fly-secrets.ps1 -App bot-kurumi'
+  echo ""
+  echo "Cach 2:"
+  echo '  fly secrets set APPSTATE_JSON="$(Get-Content appstate.json -Raw)" -a bot-kurumi'
+  echo "  fly apps restart bot-kurumi"
+  echo ""
+  echo "Cach 3 — SSH upload:"
+  echo "  fly ssh console -a bot-kurumi"
+  echo "  (tao file /app/appstate.json roi restart)"
+  echo "=============================================="
+  # Khong exit — giu may chay de /health pass + fly ssh
+  exec sleep infinity
+fi
+
 exec npm start
