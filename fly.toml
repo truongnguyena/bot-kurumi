@@ -1,0 +1,36 @@
+# Kurumi Bot — Fly.io (chạy nền 24/7)
+# Deploy: fly deploy
+# Docs: HUONG_DAN_FLY.md
+
+app = 'kurumi-bot'
+primary_region = 'sin'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[env]
+  NODE_ENV = 'production'
+  NODE_OPTIONS = '--disable-warning=DEP0040'
+  GITHUB_ANIME_URL = 'https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/anime.json'
+
+[processes]
+  app = './docker-entrypoint.sh'
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '512mb'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'off'
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ['app']
+
+  [[http_service.checks]]
+    grace_period = '30s'
+    interval = '30s'
+    method = 'GET'
+    path = '/health'
+    timeout = '5s'
