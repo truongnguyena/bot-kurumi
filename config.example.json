@@ -1,0 +1,24 @@
+{
+  "NOTIFICATION": true,
+  "language": "vi",
+  "PREFIX": "/",
+  "BOTNAME": "Kurumi Bot",
+  "ADMIN_NAME": "Kurumi",
+  "FACEBOOK_ADMIN": "https://www.facebook.com/kurumi2004/",
+  "ADMINBOT": ["YOUR_ADMIN_UID"],
+  "NDH": ["YOUR_ADMIN_UID"],
+  "IMMUNE_IDS": ["YOUR_ADMIN_UID"],
+  "APPSTATEPATH": "appstate.json",
+  "NPM_FCA": "./includes/f",
+  "GITHUB_ANIME_URL": "https://raw.githubusercontent.com/truongnguyena/bot-kurumi/main/data/anime.json",
+  "commandDisabled": [],
+  "eventDisabled": [],
+  "FCAOption": {
+    "logLevel": "silent",
+    "forceLogin": true
+  },
+  "DATABASE": {
+    "sqlite": { "storage": "data.sqlite" }
+  },
+  "DESIGN": { "Theme": "blue" }
+}
